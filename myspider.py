@@ -15,26 +15,26 @@ class MySpider(object):
     def begin(self):
         mylist=[]
         for k in range(0,26):
-            start=0
+            start=5
             req=request.Request(self.url+str(k)+'.html')
             result=request.urlopen(req)
             soup=BeautifulSoup(result.read().decode('gbk'))
             tags=soup('a')
-            first=True
+            save=True
             for x in tags:
                 ss=re.search('http:.*meinv.*html',str(x))
-                if not ss==None:
-                    if first:
 
+                if not ss==None:
+                    if save:
                         mylist.append(ss.group())
-                        first=False
+                        save=False
+                    else:
+                        save=True
 
         else:
-            for ee in mylist:
-                print(ee)
             print('begin stage 2')
         #start download every url in mylist
-        i=start
+        i=0
         for uu in mylist:
 
             imgs=[]
@@ -70,14 +70,14 @@ class MySpider(object):
     def download(self,lists,i):
 
         j=0
-        if os.path.exists('O:'+os.sep+'rosis'+os.sep+str(i)):
-            os.remove('O:'+os.sep+'rosis'+os.sep+str(i))
+        if os.path.exists('I:'+os.sep+'rosis'+os.sep+str(i)):
+            os.remove('I:'+os.sep+'rosis'+os.sep+str(i))
         else:
-            os.makedirs('O:'+os.sep+'rosis'+os.sep+str(i))
+            os.makedirs('I:'+os.sep+'rosis'+os.sep+str(i))
 
         for url in lists[:-1]:
             try:
-                with open('O:'+os.sep+'rosis'+os.sep+str(i)+os.sep+str(j)+'.jpg','wb') as f:
+                with open('I:'+os.sep+'rosis'+os.sep+str(i)+os.sep+str(j)+'.jpg','wb') as f:
                     print(str(url))
                     req=request.Request(url)
                     requ=request.urlopen(req)
